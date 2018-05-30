@@ -1,0 +1,27 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+.markdown-c {
+  display: flex;
+  flex-direction: column;
+  jusitfy-content: flex-start;
+  align-items: stretch;
+}
+
+.markdown-c__textarea {
+  padding: 20px;
+  width: 100%;
+  height: 50vh;
+}
+
+.markdown-c__markdown-translator {
+  border: 1px solid black;
+  padding: 20px;
+  width: 100%;
+  height: 50vh;
+}

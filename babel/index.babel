@@ -1,0 +1,56 @@
+marked.setOptions({
+  renderer: new marked.Renderer(),
+  gfm: true,
+  tables: true,
+  breaks: true,
+  pedantic: false,
+  sanitize: false,
+  smartLists: true,
+  smartypants: false
+});
+
+class Markdown_Container extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      inputValue: ''
+    };
+    this.setInputValue = this.setInputValue.bind(this);
+  }
+  
+  setInputValue = (inputValue) => {
+    this.setState(() => ({ inputValue }));
+  }
+  
+  render() {
+    return (
+      <div className="markdown-c">
+        <textarea 
+          rows={25} 
+          columns={10} 
+          className='markdown-c__textarea'
+          onChange={(inputValue) => this.setInputValue(inputValue.target.value)}
+        >
+        </textarea>
+        <Markdown_Translator translatedText={this.state.inputValue}/>
+      </div>
+    );
+  }
+}
+
+class Markdown_Translator extends React.Component {
+  constructor(props){
+    super(props);
+    this.getMarkdownText = this.getMarkdownText.bind(this);
+  }
+  getMarkdownText(mark) {
+    var rawMarkup = marked(mark, {sanitize: true});
+    console.log(rawMarkup);
+    return { __html: rawMarkup };
+  }
+  render() {
+    return <div dangerouslySetInnerHTML={this.getMarkdownText(this.props.translatedText)} className="markdown-c__markdown-translator" />
+  }
+}
+
+ReactDOM.render(<Markdown_Container />, document.getElementById('root'));
