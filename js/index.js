@@ -6,8 +6,10 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+var renderer = new marked.Renderer();
+
 marked.setOptions({
-  renderer: new marked.Renderer(),
+  renderer: renderer,
   gfm: true,
   tables: true,
   breaks: true,
@@ -17,7 +19,11 @@ marked.setOptions({
   smartypants: false
 });
 
-var placeholder = "# Welcome to my React Markdown Previewer!\n\n## This is a sub-heading...\n### And here's some other cool stuff:\n  \nHeres some code, `<div></div>`, between 2 backticks.\n\n```\n// this is multi-line code:\n\nfunction anotherExample(firstLine, lastLine) {\n  if (firstLine == '```' && lastLine == '```') {\n    return multiLineCode;\n  }\n}\n```\n  \nYou can also make text **bold**... whoa!\nOr _italic_.\nOr... wait for it... **_both!_**\nAnd feel free to go crazy ~~crossing stuff out~~.\n\nThere's also [links](https://www.freecodecamp.com), and\n> Block Quotes!\n\nAnd if you want to get really crazy, even tables:\n\nWild Header | Crazy Header | Another Header?\n------------ | ------------- | ------------- \nYour content can | be here, and it | can be here....\nAnd here. | Okay. | I think we get it.\n\n- And of course there are lists.\n  - Some are bulleted.\n     - With different indentation levels.\n        - That look like this.\n\n\n1. And there are numbererd lists too.\n1. Use just 1s if you want! \n1. But the list goes on...\n- Even if you use dashes or asterisks.\n* And last but not least, let's not forget embedded images:\n\n![React Logo w/ Text](https://goo.gl/Umyytc)\n";
+renderer.link = function (href, title, text) {
+  return '<a target="_blank" href="' + href + '" title="' + title + '">' + text + '</a>';
+};
+
+var placeholder = '# Welcome to my React Markdown Previewer!\n\n## This is a sub-heading...\n### And here\'s some other cool stuff:\n  \nHeres some code, `<div></div>`, between 2 backticks.\n\n```\n// this is multi-line code:\n\nfunction anotherExample(firstLine, lastLine) {\n  if (firstLine == \'```\' && lastLine == \'```\') {\n    return multiLineCode;\n  }\n}\n```\n  \nYou can also make text **bold**... whoa!\nOr _italic_.\nOr... wait for it... **_both!_**\nAnd feel free to go crazy ~~crossing stuff out~~.\n\nThere\'s also [links](https://www.freecodecamp.com), and\n> Block Quotes!\n\nAnd if you want to get really crazy, even tables:\n\nWild Header | Crazy Header | Another Header?\n------------ | ------------- | ------------- \nYour content can | be here, and it | can be here....\nAnd here. | Okay. | I think we get it.\n\n- And of course there are lists.\n  - Some are bulleted.\n     - With different indentation levels.\n        - That look like this.\n\n\n1. And there are numbererd lists too.\n1. Use just 1s if you want! \n1. But the list goes on...\n- Even if you use dashes or asterisks.\n* And last but not least, let\'s not forget embedded images:\n\n![React Logo w/ Text](https://goo.gl/Umyytc)\n';
 
 var Markdown_Container = function (_React$Component) {
   _inherits(Markdown_Container, _React$Component);
@@ -41,19 +47,19 @@ var Markdown_Container = function (_React$Component) {
   }
 
   _createClass(Markdown_Container, [{
-    key: "render",
+    key: 'render',
     value: function render() {
       var _this2 = this;
 
       return React.createElement(
-        "div",
-        { className: "markdown-c" },
+        'div',
+        { className: 'markdown-c' },
         React.createElement(
-          "textarea",
+          'textarea',
           {
             rows: 25,
             columns: 10,
-            className: "markdown-c__textarea",
+            className: 'markdown-c__textarea',
             onChange: function onChange(inputValue) {
               return _this2.setInputValue(inputValue.target.value);
             },
@@ -83,19 +89,19 @@ var Markdown_Translator = function (_React$Component2) {
   }
 
   _createClass(Markdown_Translator, [{
-    key: "getMarkdownText",
+    key: 'getMarkdownText',
     value: function getMarkdownText(mark) {
       var rawMarkup = marked(mark, { sanitize: true });
       console.log(rawMarkup);
       return { __html: rawMarkup };
     }
   }, {
-    key: "render",
+    key: 'render',
     value: function render() {
-      return React.createElement("div", {
+      return React.createElement('div', {
         dangerouslySetInnerHTML: this.getMarkdownText(this.props.translatedText),
-        className: "markdown-c__markdown-translator",
-        id: "preview"
+        className: 'markdown-c__markdown-translator',
+        id: 'preview'
       });
     }
   }]);

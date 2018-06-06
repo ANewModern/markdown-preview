@@ -1,5 +1,7 @@
+let renderer = new marked.Renderer();
+
 marked.setOptions({
-  renderer: new marked.Renderer(),
+  renderer: renderer,
   gfm: true,
   tables: true,
   breaks: true,
@@ -8,6 +10,10 @@ marked.setOptions({
   smartLists: true,
   smartypants: false
 });
+
+renderer.link = function( href, title, text ) {
+  return '<a target="_blank" href="'+ href +'" title="' + title + '">' + text + '</a>';
+}
 
 const placeholder = 
 `# Welcome to my React Markdown Previewer!
