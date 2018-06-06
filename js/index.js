@@ -17,6 +17,8 @@ marked.setOptions({
   smartypants: false
 });
 
+var placeholder = "# Welcome to my React Markdown Previewer!\n\n## This is a sub-heading...\n### And here's some other cool stuff:\n  \nHeres some code, `<div></div>`, between 2 backticks.\n\n```\n// this is multi-line code:\n\nfunction anotherExample(firstLine, lastLine) {\n  if (firstLine == '```' && lastLine == '```') {\n    return multiLineCode;\n  }\n}\n```\n  \nYou can also make text **bold**... whoa!\nOr _italic_.\nOr... wait for it... **_both!_**\nAnd feel free to go crazy ~~crossing stuff out~~.\n\nThere's also [links](https://www.freecodecamp.com), and\n> Block Quotes!\n\nAnd if you want to get really crazy, even tables:\n\nWild Header | Crazy Header | Another Header?\n------------ | ------------- | ------------- \nYour content can | be here, and it | can be here....\nAnd here. | Okay. | I think we get it.\n\n- And of course there are lists.\n  - Some are bulleted.\n     - With different indentation levels.\n        - That look like this.\n\n\n1. And there are numbererd lists too.\n1. Use just 1s if you want! \n1. But the list goes on...\n- Even if you use dashes or asterisks.\n* And last but not least, let's not forget embedded images:\n\n![React Logo w/ Text](https://goo.gl/Umyytc)\n";
+
 var Markdown_Container = function (_React$Component) {
   _inherits(Markdown_Container, _React$Component);
 
@@ -32,28 +34,34 @@ var Markdown_Container = function (_React$Component) {
     };
 
     _this.state = {
-      inputValue: ''
+      inputValue: placeholder
     };
     _this.setInputValue = _this.setInputValue.bind(_this);
     return _this;
   }
 
   _createClass(Markdown_Container, [{
-    key: 'render',
+    key: "render",
     value: function render() {
       var _this2 = this;
 
       return React.createElement(
-        'div',
-        { className: 'markdown-c' },
-        React.createElement('textarea', {
-          rows: 25,
-          columns: 10,
-          className: 'markdown-c__textarea',
-          onChange: function onChange(inputValue) {
-            return _this2.setInputValue(inputValue.target.value);
-          }
-        }),
+        "div",
+        { className: "markdown-c" },
+        React.createElement(
+          "textarea",
+          {
+            rows: 25,
+            columns: 10,
+            className: "markdown-c__textarea",
+            onChange: function onChange(inputValue) {
+              return _this2.setInputValue(inputValue.target.value);
+            },
+            placeholder: "Start typing to get results",
+            id: "editor"
+          },
+          placeholder
+        ),
         React.createElement(Markdown_Translator, { translatedText: this.state.inputValue })
       );
     }
@@ -75,20 +83,24 @@ var Markdown_Translator = function (_React$Component2) {
   }
 
   _createClass(Markdown_Translator, [{
-    key: 'getMarkdownText',
+    key: "getMarkdownText",
     value: function getMarkdownText(mark) {
       var rawMarkup = marked(mark, { sanitize: true });
       console.log(rawMarkup);
       return { __html: rawMarkup };
     }
   }, {
-    key: 'render',
+    key: "render",
     value: function render() {
-      return React.createElement('div', { dangerouslySetInnerHTML: this.getMarkdownText(this.props.translatedText), className: 'markdown-c__markdown-translator' });
+      return React.createElement("div", {
+        dangerouslySetInnerHTML: this.getMarkdownText(this.props.translatedText),
+        className: "markdown-c__markdown-translator",
+        id: "preview"
+      });
     }
   }]);
 
   return Markdown_Translator;
 }(React.Component);
 
-ReactDOM.render(React.createElement(Markdown_Container, null), document.getElementById('root'));
+ReactDOM.render(React.createElement(Markdown_Container, null), document.getElementById("root"));
